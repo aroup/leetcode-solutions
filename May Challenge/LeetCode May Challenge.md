@@ -104,3 +104,72 @@ If we can see that **isBadVersion** is returning true for mid, we can adjust our
 **Space Complexity:** O(1) 
 
 **Reason:** We are not assigning any additional array.
+
+
+
+### 02.05.2020
+
+
+
+You're given strings `J` representing the types of stones that are jewels, and `S` representing the stones you have. Each character in `S` is a type of stone you have. You want to know how many of the stones you have are also jewels.
+
+The letters in `J` are guaranteed distinct, and all characters in `J` and `S` are letters. Letters are case sensitive, so `"a"` is considered a different type of stone from `"A"`.
+
+**Example 1:**
+
+```
+Input: J = "aA", S = "aAAbbbb"
+Output: 3
+```
+
+**Example 2:**
+
+```
+Input: J = "z", S = "ZZ"
+Output: 0
+```
+
+**Note:**
+
+- `S` and `J` will consist of letters and have length at most 50.
+- The characters in `J` are distinct.
+
+
+
+**Solution:**
+
+```c++
+class Solution {
+public:
+    int numJewelsInStones(string J, string S) {
+        unordered_set<char>jewels;
+        int result = 0;
+        for(int i=0;i<J.size();i++)
+        {
+            jewels.insert(J[i]);
+        }
+        for(int i=0;i<S.size();i++)
+        {
+            if(jewels.find(S[i])!=jewels.end())
+            {
+                result++;
+            }
+        }
+        return result;
+    }
+};
+```
+
+
+
+**Solution Thought Process:**
+
+This is a well known hash problem. First we take the jewel string and make sure that all the entries are in the hash set. Then we go through the S string to find out if this is a jewel by checking the set one by one, adding them into result.
+
+We can find the items in the unordered_set in O(1) time.
+
+
+
+**Time Complexity:** O(m+n) where m = length of J, n = length of S
+
+**Space Complexity:** O(m) where m = length of J 
