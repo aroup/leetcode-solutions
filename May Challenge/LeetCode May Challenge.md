@@ -1,12 +1,10 @@
-## LeetCode May Challenge:
+# LeetCode May Challenge:
 
 
 
-###  **01.05.2020**
+##  **01.05.2020**
 
-
-
-**Problem Statement:**
+### Problem Statement
 
 You are a product manager and currently leading a team to develop a new product. Unfortunately, the latest version of your product fails the quality check. Since each version is developed based on the previous version, all the versions after a bad version are also bad.
 
@@ -14,7 +12,7 @@ Suppose you have `n` versions `[1, 2, ..., n]` and you want to find out the firs
 
 You are given an API `bool isBadVersion(version)` which will return whether `version` is bad. Implement a function to find the first bad version. You should minimize the number of calls to the API.
 
-**Example:**
+### Example
 
 ```
 Given n = 5, and version = 4 is the first bad version.
@@ -28,7 +26,7 @@ Then 4 is the first bad version.
 
 
 
-**Solution:**
+### Solution
 
 ```c++
 // The API isBadVersion is defined for you.
@@ -63,7 +61,7 @@ public:
 
 
 
-**Solution thought process:**
+### Solution thought process
 
 If you have to find the first occurrence of an element in a sorted array of some kind, binary search should be the first thing we should be thinking of. 
 
@@ -97,23 +95,23 @@ If we can see that **isBadVersion** is returning true for mid, we can adjust our
 
 
 
-**Time complexity:**  O(logn) 
+### Complexity
 
-**Reason:** On every loop we are making the candidate space into half, giving it a logarithmic complexity.
+**Time complexity:**  O(logn), On every loop we are making the candidate space into half, giving it a logarithmic complexity.
 
-**Space Complexity:** O(1) 
-
-**Reason:** We are not assigning any additional array.
+**Space Complexity:** O(1), we are not assigning any additional array.
 
 
 
-### 02.05.2020
+## 02.05.2020
 
-
+###  Problem Statement
 
 You're given strings `J` representing the types of stones that are jewels, and `S` representing the stones you have. Each character in `S` is a type of stone you have. You want to know how many of the stones you have are also jewels.
 
 The letters in `J` are guaranteed distinct, and all characters in `J` and `S` are letters. Letters are case sensitive, so `"a"` is considered a different type of stone from `"A"`.
+
+### Example
 
 **Example 1:**
 
@@ -136,7 +134,7 @@ Output: 0
 
 
 
-**Solution:**
+### Solution
 
 ```c++
 class Solution {
@@ -162,14 +160,90 @@ public:
 
 
 
-**Solution Thought Process:**
+### Solution Thought Process
 
 This is a well known hash problem. First we take the jewel string and make sure that all the entries are in the hash set. Then we go through the S string to find out if this is a jewel by checking the set one by one, adding them into result.
 
 We can find the items in the unordered_set in O(1) time.
 
-
+### Complexity
 
 **Time Complexity:** O(m+n) where m = length of J, n = length of S
 
 **Space Complexity:** O(m) where m = length of J 
+
+
+
+## 03.05.2020
+
+### Problem Statement
+
+Given an arbitrary ransom note string and another string containing letters from all the magazines, write a function that will return true if the ransom note can be constructed from the magazines ; otherwise, it will return false.
+
+Each letter in the magazine string can only be used once in your ransom note.
+
+### Example
+
+**Note:**
+You may assume that both strings contain only lowercase letters.
+
+```
+canConstruct("a", "b") -> false
+canConstruct("aa", "ab") -> false
+canConstruct("aa", "aab") -> true
+```
+
+### Solution
+
+```c++
+class Solution {
+public:
+    bool canConstruct(string ransomNote, string magazine) {
+        unordered_map<char,int>M;
+        bool result = true;
+        for(int i=0;i<magazine.size();i++)
+        {
+            if(M.find(magazine[i])==M.end())
+            {
+                M[magazine[i]]=1;
+            }
+            else {
+                M[magazine[i]]++;
+            }
+        }
+        for(int i=0;i<ransomNote.size();i++)
+        {
+            if(M.find(ransomNote[i])==M.end())
+            {
+                result = false;
+                break;
+            }
+            else 
+            {
+                if(M[ransomNote[i]]>0)
+                {
+                    M[ransomNote[i]]--;
+                }
+                else {
+                    result = false;
+                    break;
+                }
+            }
+        }
+        return result;
+    }
+};
+```
+
+
+
+### Solution Thought Process
+
+This is a well known hash map problem.
+
+- Find the frequency of each element in the magazine, store them in a Map.
+- For each element in the ransom note, check the value in the map.
+  - If it doesn't exist, we can't make the ransom note.
+  - If it exists, then check if it's unused frequency is greater than 0.
+    - If it's greater than 0, then decrease the frequency to use it in the ransom note.
+    - If it's not greater than 0, then we have used up all of the characters available in the magazine, so we should return false.
