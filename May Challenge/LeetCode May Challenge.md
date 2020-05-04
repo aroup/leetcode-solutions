@@ -247,3 +247,174 @@ This is a well known hash map problem.
   - If it exists, then check if it's unused frequency is greater than 0.
     - If it's greater than 0, then decrease the frequency to use it in the ransom note.
     - If it's not greater than 0, then we have used up all of the characters available in the magazine, so we should return false.
+
+
+
+## 04.05.2020
+
+### Problem Statement
+
+Given a positive integer, output its complement number. The complement strategy is to flip the bits of its binary representation.
+
+### Example
+
+**Example 1:**
+
+```
+Input: 5
+Output: 2
+Explanation: The binary representation of 5 is 101 (no leading zero bits), and its complement is 010. So you need to output 2.
+```
+
+ 
+
+**Example 2:**
+
+```
+Input: 1
+Output: 0
+Explanation: The binary representation of 1 is 1 (no leading zero bits), and its complement is 0. So you need to output 0.
+```
+
+ 
+
+**Note:**
+
+1. The given integer is guaranteed to fit within the range of a 32-bit signed integer.
+2. You could assume no leading zero bit in the integer’s binary representation.
+3. This question is the same as 1009: https://leetcode.com/problems/complement-of-base-10-integer/
+
+### Solution
+
+```c++
+class Solution {
+public:
+    int findComplement(int num) {
+        int binaryLength = floor(log2(num)) +1;
+        int mask = (long long int) (1 << binaryLength) - 1 ;
+        return num ^ mask;
+    }
+};
+```
+
+
+
+### Solution Thought Process
+
+Bitwise problems are better understood if they are demonstrated via number.
+
+First take a short course on bitwise operations.
+
+- **When you XOR a bit with a 1, it's value is toogled. This is one important property of XOR.**
+
+| **INPUT** |      | **OUTPUT** |
+| --------- | ---- | ---------- |
+| A         | B    | A XOR B    |
+| 0         | 0    | 0          |
+| 0         | 1    | 1          |
+| 1         | 0    | 1          |
+| 1         | 1    | 0          |
+
+- **When you have a binary number which has 1 in front of it and the later bits are 0, it you subtract 1 from the number, the 1 will become 0, and the 0's will become one.**
+
+For example, let's take 16 in decimal which is 10000 in binary. Let's subtract 1 from it. It become 1111 in binary.
+
+```
+1 0 0 0 0         1 6 
+
+     -  1         - 1  
+
+----------     	 ----
+0 1 1 1 1         1 5
+```
+
+
+
+So for this problem we need to XOR every bit of the given number with 1. 
+
+So if the number is 10100, then we have to XOR 1 with 0, then 0, then 1, then 0, and then finally 1 from right to left.
+
+
+
+So in a nutshell we have to do XOR like this 
+
+```
+	1 0 1 0 0 
+^	1 1 1 1 1
+-------------
+	0 1 0 1 1
+```
+
+How can we do this?
+
+
+
+First we have to find out what is the length of this binary number. We can do it by using this logarithmic expression:
+
+```
+floor(log2(num)) +1;
+```
+
+
+
+How does it find it? Let's take the intuition from 10 based logarithms.
+
+**Suppose we have a number 1000, how many digits are in here?**
+
+```
+floor(log10(1000)) + 1
+= floor(log10(10^3))+1
+= floor(3)+1
+= 4
+```
+
+
+
+So we have the number of digits here, which means we need to have this five 1's. How to we find five 1's as a number?
+
+Using the second bitwise lesson we can see that if we have 1 followed by five 0's, which is 100000 in binary and then subtract 1 from the number, we will get 11111 in binary.
+
+
+
+**But how do we find 1 followed by five 0's?**
+
+We take the 1, and left shift it's bit by 5, the number of binary digits in the given number. There's a shorthand way of doing so, that is
+
+```
+1 << 5
+= 100000 (In binary)
+= 32 (In decimal)
+```
+
+
+
+Voila, we now know where to subtract the 1 from and we will get the number by which we have to perform the XOR.
+
+
+
+```
+1 0 0 0 0 0
+-         1
+-----------
+0 1 1 1 1 1
+```
+
+
+
+Let's perform the XOR. It will give us the number with it's bits flipped, 0 becomes 1, 1 becomes 0. 
+
+```
+	1 0 1 0 0 
+^	1 1 1 1 1
+-------------
+	0 1 0 1 1
+```
+
+
+
+**Yan become Ying, Ying becomes Yan.**
+
+
+
+
+
