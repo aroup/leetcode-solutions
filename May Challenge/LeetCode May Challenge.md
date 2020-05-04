@@ -341,7 +341,7 @@ So in a nutshell we have to do XOR like this
 ```
 	1 0 1 0 0 
 ^	1 1 1 1 1
--------------
+------------------
 	0 1 0 1 1
 ```
 
