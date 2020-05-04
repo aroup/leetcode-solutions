@@ -406,7 +406,7 @@ Let's perform the XOR. It will give us the number with it's bits flipped, 0 beco
 ```
 	1 0 1 0 0 
 ^	1 1 1 1 1
--------------
+------------------
 	0 1 0 1 1
 ```
 
