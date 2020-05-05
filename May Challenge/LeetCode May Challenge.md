@@ -416,5 +416,59 @@ Let's perform the XOR. It will give us the number with it's bits flipped, 0 beco
 
 
 
+## **05.05.2020**
 
 
+
+### Problem Statement
+
+Given a string, find the first non-repeating character in it and return it's index. If it doesn't exist, return -1.
+
+### Example
+
+```
+s = "leetcode"
+return 0.
+
+s = "loveleetcode",
+return 2.
+```
+
+**Note:** You may assume the string contain only lowercase letters.
+
+### Solution
+
+```c++
+class Solution {
+public:
+    int firstUniqChar(string s) {
+        unordered_map<char,int> M;
+        for(int i=0;i<s.size();i++)
+        {
+            if(M.count(s[i]))
+            {
+                M[s[i]]++;
+            }
+            else {
+                M[s[i]] = 1;
+            }
+        }
+        int answer_index = -1;
+        for(int i=0;i<s.size();i++)
+        {
+            if(M[s[i]]==1)
+            {
+                answer_index = i;
+                break;
+            }
+        }
+        return answer_index;
+    }
+};
+```
+
+
+
+### Solution Thought Process
+
+This is also similar to the hash map problem. First we count the frequency of the characters in the string. Then we iterate through the string again, this time if we find the frequency `1` of a character, we will return this as the answer, otherwise we return -1.
