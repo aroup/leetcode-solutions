@@ -132,7 +132,11 @@ Output: 0
 - `S` and `J` will consist of letters and have length at most 50.
 - The characters in `J` are distinct.
 
+### Solution Thought Process
 
+This is a well known hash problem. First we take the jewel string and make sure that all the entries are in the hash set. Then we go through the S string to find out if this is a jewel by checking the set one by one, adding them into result.
+
+We can find the items in the unordered_set in O(1) time.
 
 ### Solution
 
@@ -160,12 +164,6 @@ public:
 
 
 
-### Solution Thought Process
-
-This is a well known hash problem. First we take the jewel string and make sure that all the entries are in the hash set. Then we go through the S string to find out if this is a jewel by checking the set one by one, adding them into result.
-
-We can find the items in the unordered_set in O(1) time.
-
 ### Complexity
 
 **Time Complexity:** O(m+n) where m = length of J, n = length of S
@@ -192,6 +190,19 @@ canConstruct("a", "b") -> false
 canConstruct("aa", "ab") -> false
 canConstruct("aa", "aab") -> true
 ```
+
+
+
+### Solution Thought Process
+
+This is a well known hash map problem.
+
+- Find the frequency of each element in the magazine, store them in a hash map.
+- For each element in the ransom note, check the value in the map.
+  - If it doesn't exist, we can't make the ransom note.
+  - If it exists, then check if it's unused frequency is greater than 0.
+    - If it's greater than 0, then decrease the frequency to use it in the ransom note.
+    - If it's not greater than 0, then we have used up all of the characters available in the magazine, so we should return false.
 
 ### Solution
 
@@ -237,16 +248,11 @@ public:
 
 
 
-### Solution Thought Process
+### Complexity:
 
-This is a well known hash map problem.
+**Time Complexity:** O(m + n), where m = length of magazine and n = length of ransom note
 
-- Find the frequency of each element in the magazine, store them in a Map.
-- For each element in the ransom note, check the value in the map.
-  - If it doesn't exist, we can't make the ransom note.
-  - If it exists, then check if it's unused frequency is greater than 0.
-    - If it's greater than 0, then decrease the frequency to use it in the ransom note.
-    - If it's not greater than 0, then we have used up all of the characters available in the magazine, so we should return false.
+**Space Complexity:** O(m) where m = length of magazine
 
 
 
@@ -416,6 +422,20 @@ Let's perform the XOR. It will give us the number with it's bits flipped, 0 beco
 
 
 
+### **Gotchas**
+
+- Be careful when creating the mask. We may create overflow when we are creating the mask. So we perform a cast operation to long long int and then subtract 1 in the code, which will take care of the overflow problem. Why? Just give a little thought and you will figure it out.
+
+
+
+###  **Complexity:**
+
+**Time Complexity:** O(n), where n is the number of digits in binary. We will have to find out the length of binary digits which we can do by dividing the number by 2 repetitively and we have to do the masking operation. Both of them will take max of O(n) time where n is number of binary digits. In the case where we know that the integer is 32 bit, the time is  constant. But when the length is unknown, it will loop over all the binary digits, giving us a time complexity of O(n)
+
+**Space Complexity:** O(n) where n is the number of digits in binary. We have to have that much binary digits for the computation.
+
+
+
 ## **05.05.2020**
 
 
@@ -471,7 +491,13 @@ public:
 
 ### Solution Thought Process
 
-This is also similar to the hash map problem. First we count the frequency of the characters in the string. Then we iterate through the string again, this time if we find the frequency `1` of a character, we will return this as the answer, otherwise we return -1.
+This is a hash map problem. First we count the frequency of the characters in the string by iterating over the string once. Then we iterate through the string again, this time if we find the frequency `1` of a character, we will set this as answer and we break the loop. If no element's frequency which equals to 1, we return `-1` as answer.
+
+### Complexity
+
+**Time Complexity:** O(n), where n = length of s.
+
+**Space Complexity:** O(n), where n = length of s.  
 
 
 
@@ -580,3 +606,9 @@ and let's call the majority element `candidate`
 
 
 With this algorithm, we can easily find the majority element.
+
+### Complexity
+
+**Time Complexity:** O(n), we are iterating over the array only once.
+
+**Space Complexity:** O(1), we are not using any extra space.
