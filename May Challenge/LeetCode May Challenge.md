@@ -509,30 +509,30 @@ Let's describe the algorithm. First we have a counter for majority element, let'
 
 and let's call the majority element `candidate`
 
-1. First we see `nums[0] = 2`. For now we know that this can be our majority element because we don't have processed any other entries. `candidate_count = 1` and `candidate=2`
+1. First we see `nums[0]=2`. For now we know that this can be our majority element because we don't have processed any other entries. `candidate_count=1` and `candidate=2`
 
-2. Next the `nums[1]=1`, when we get this, we are sure that 2 and 1 can't be majority elements for the elements we have processed. We will be decreasing the candidate counter .`candidate_count = 0` and `candidate = 2`
+2. Next the `nums[1]=1`, when we get this, we are sure that 2 and 1 can't be majority elements for the elements we have processed. We will be decreasing the candidate counter .`candidate_count=0` and `candidate=2`
 
-3. Next the `nums[2]=3` because the previous `candidate_count` has been 0 (being demolished by the different element), we can consider this element as a candidate and increase the candidate count. `candidate_count = 1` and `candidate=3`
+3. Next the `nums[2]=3` because the previous `candidate_count` has been 0 (being demolished by the different element), we can consider this element as a candidate and increase the candidate count. `candidate_count=1` and `candidate=3`
 
 4. `nums[3]=1`, the element and candidate are different, which means that this number and the previous candidate doesn't have any chance for being the majority element. Decreasing the candidate counter.
 
    `candidate_counter=0` and `candidate=3`
 
-5. `nums[4]=1` because the previous `candidate_count` has been 0 (being demolished by the different element), we can consider this element as a candidate and increase the candidate count. `candidate_count = 1` and `candidate=1`
+5. `nums[4]=1` because the previous `candidate_count` has been 0 (being demolished by the different element), we can consider this element as a candidate and increase the candidate count. `candidate_count=1` and `candidate=1`
 
-6. `nums[5]=2` the element doesn't match with our previous candidate, so we will decrease the candidate_counter. `candidate_counter = 0` and `candidate = 1`
+6. `nums[5]=2` the element doesn't match with our previous candidate, so we will decrease the candidate_counter. `candidate_counter=0` and `candidate=1`
 
-7. `nums[6]=1` as the `candidate_counter = 0`, let's make this as our candidate. We will increase the candidate_counter by 1, making `candidate_counter=1` and `candidate =1`
+7. `nums[6]=1` as the `candidate_counter=0`, let's make this as our candidate. We will increase the candidate_counter by 1, making `candidate_counter=1` and `candidate=1`
 
 8. `nums[7]=1` as the elements match with our previous candidate, increase the candidate_counter. `candidate_counter=2` and `candidate=1`
 
-9. `nums[8]=2` as the element doesn't match with our candidate, decrease the candidate_counter, `candidate_counter=1` and `candidate = 1`
+9. `nums[8]=2` as the element doesn't match with our candidate, decrease the candidate_counter, `candidate_counter=1` and `candidate=1`
 
-10. `nums[9]=1` as the element and candidate match, increase the `candidate_counter` by 1. `candidate_counter=2` and `candidate = 1`
+10. `nums[9]=1` as the element and candidate match, increase the `candidate_counter` by 1. `candidate_counter=2` and `candidate=1`
 
-11. `nums[10]=1` element and candidate match, increase the `candidate_counter` by 1. `candidate_counter=3` and `candidate = 1`
-12. `nums[11]=3` element and candidate doesn't match, decrease the `candidate_counter` by 1. `candidate_counter = 2` and `candidate = 1`
+11. `nums[10]=1` element and candidate match, increase the `candidate_counter` by 1. `candidate_counter=3` and `candidate=1`
+12. `nums[11]=3` element and candidate doesn't match, decrease the `candidate_counter` by 1. `candidate_counter=2` and `candidate=1`
 13. `nums[12] =1` element and candidate match, increase the `candidate_counter` by 1. Making the `candidate_counter=3` and `candidate=1`
 
 With this algorithm, we can easily find the majority element.
