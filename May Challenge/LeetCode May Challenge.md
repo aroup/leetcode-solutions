@@ -523,6 +523,7 @@ public:
                 candidate_count--;
             }
         }
+        return candidate;
     }
 };
 ```
