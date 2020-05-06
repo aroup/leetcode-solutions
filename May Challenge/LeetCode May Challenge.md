@@ -472,3 +472,110 @@ public:
 ### Solution Thought Process
 
 This is also similar to the hash map problem. First we count the frequency of the characters in the string. Then we iterate through the string again, this time if we find the frequency `1` of a character, we will return this as the answer, otherwise we return -1.
+
+
+
+## **06.05.2020**
+
+
+
+### Problem Statement
+
+Given an array of size *n*, find the majority element. The majority element is the element that appears **more than** `⌊ n/2 ⌋` times.
+
+You may assume that the array is non-empty and the majority element always exist in the array.
+
+### Example
+
+**Example 1:**
+
+```
+Input: [3,2,3]
+Output: 3
+```
+
+**Example 2:**
+
+```
+Input: [2,2,1,1,1,2,2]
+Output: 2
+```
+
+### Solution
+
+```c++
+class Solution {
+public:
+    int majorityElement(vector<int>& nums) {
+        int candidate_count = 0, candidate;
+        for(auto a:nums)
+        {
+            if(candidate_count == 0)
+            {
+                candidate = a;
+                candidate_count = 1;
+            }
+            else if(candidate == a)
+            {
+                candidate_count++;
+            }
+            else {
+                candidate_count--;
+            }
+        }
+    }
+};
+```
+
+
+
+### Solution Thought Process
+
+The straight forward solution is to have a hash map to calculate the occurrence and then check if the occurrence is greater than `⌊ n/2 ⌋` times.
+
+The space complexity is O(n) and time complexity is O(n).
+
+But we can do better with the space. We can make use of the fact that there will certainly a majority element in the array.
+
+Let's say the array is,
+
+```
+nums: 	  2 	1	 3	 1	 1	 2	 1	 1	 2	 1	 1	  3	  1
+idx:      0     1    2   3   4   5	 6	 7   8   9  10   11  12
+```
+
+
+
+Let's describe the algorithm. First we have a counter for majority element, let's name it `candidate_count`
+
+and let's call the majority element `candidate`
+
+1. First we see `nums[0] = 2`. For now we know that this can be our majority element because we don't have processed any other entries. `candidate_count = 1` and `candidate=2`
+
+2. Next the `nums[1]=1`, when we get this, we are sure that 2 and 1 can't be majority elements for the elements we have processed. We will be decreasing the candidate counter .`candidate_count = 0` and `candidate = 2`
+
+3. Next the `nums[2]=3` because the previous `candidate_count` has been 0 (being demolished by the different element), we can consider this element as a candidate and increase the candidate count. `candidate_count = 1` and `candidate=3`
+
+4. `nums[3]=1`, the element and candidate are different, which means that this number and the previous candidate doesn't have any chance for being the majority element. Decreasing the candidate counter.
+
+   `candidate_counter=0` and `candidate=3`
+
+5.  `nums[4]=1` because the previous `candidate_count` has been 0 (being demolished by the different element), we can consider this element as a candidate and increase the candidate count. `candidate_count = 1` and `candidate=1`
+
+6. `nums[5]=2` the element doesn't match with our previous candidate, so we will decrease the candidate_counter. `candidate_counter = 0` and `candidate = 1`
+
+7. `nums[6]=1` as the `candidate_counter = 0`, let's make this as our candidate. We will increase the candidate_counter by 1, making `candidate_counter=1 ` and `candidate =1`
+
+8. `nums[7]=1` as the elements match with our previous candidate, increase the candidate_counter. `candidate_counter=2` and `candidate=1`
+
+9. `nums[8]=2` as the element doesn't match with our candidate, decrease the candidate_counter, `candidate_counter=1` and `candidate = 1`
+
+10. `nums[9]=1` as the element and candidate match, increase the `candidate_counter` by 1. `candidate_counter=2` and `candidate = 1`
+
+11. `nums[10]=1` element and candidate match, increase the `candidate_counter` by 1. `candidate_counter=3` and `candidate = 1`
+12. `nums[11]=3` element and candidate doesn't match, decrease the `candidate_counter` by 1. `candidate_counter = 2` and `candidate = 1`
+13. `nums[12] =1` element and candidate match, increase the `candidate_counter` by 1. Making the `candidate_counter=3` and `candidate=1` 
+
+
+
+With this algorithm, we can easily find the majority element.
