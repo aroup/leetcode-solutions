@@ -1,8 +1,6 @@
 # LeetCode May Challenge:
 
-
-
-##  **01.05.2020**
+## **01.05.2020**
 
 ### Problem Statement
 
@@ -21,10 +19,8 @@ call isBadVersion(3) -> false
 call isBadVersion(5) -> true
 call isBadVersion(4) -> true
 
-Then 4 is the first bad version. 
+Then 4 is the first bad version.
 ```
-
-
 
 ### Solution
 
@@ -59,11 +55,9 @@ public:
 };
 ```
 
-
-
 ### Solution thought process
 
-If you have to find the first occurrence of an element in a sorted array of some kind, binary search should be the first thing we should be thinking of. 
+If you have to find the first occurrence of an element in a sorted array of some kind, binary search should be the first thing we should be thinking of.
 
 Let's think of the first scenario:
 
@@ -76,11 +70,7 @@ Scenario #1: isBadVersion(mid) => false
 left    mid    right
 ```
 
-
-
 If we can see that the **isBadVersion** is returning false for mid, we can adjust our `left` to be equal to `mid+1`, because we know that we don't have to consider previous [left, mid] region for the answer, as we can see it from the scenario #1.
-
-
 
 ```
 Scenario #2: isBadVersion(mid) => true
@@ -91,21 +81,17 @@ Scenario #2: isBadVersion(mid) => true
 left    mid    right
 ```
 
-If we can see that **isBadVersion** is returning true for mid, we can adjust our right to be `mid-1` and our `result = mid`   because we have to find the first occurrence  of the Bad product.
-
-
+If we can see that **isBadVersion** is returning true for mid, we can adjust our right to be `mid-1` and our `result = mid` because we have to find the first occurrence of the Bad product.
 
 ### Complexity
 
-**Time complexity:**  O(logn), On every loop we are making the candidate space into half, giving it a logarithmic complexity.
+**Time complexity:** O(logn), On every loop we are making the candidate space into half, giving it a logarithmic complexity.
 
 **Space Complexity:** O(1), we are not assigning any additional array.
 
-
-
 ## 02.05.2020
 
-###  Problem Statement
+### Problem Statement
 
 You're given strings `J` representing the types of stones that are jewels, and `S` representing the stones you have. Each character in `S` is a type of stone you have. You want to know how many of the stones you have are also jewels.
 
@@ -162,15 +148,11 @@ public:
 };
 ```
 
-
-
 ### Complexity
 
 **Time Complexity:** O(m+n) where m = length of J, n = length of S
 
-**Space Complexity:** O(m) where m = length of J 
-
-
+**Space Complexity:** O(m) where m = length of J
 
 ## 03.05.2020
 
@@ -190,8 +172,6 @@ canConstruct("a", "b") -> false
 canConstruct("aa", "ab") -> false
 canConstruct("aa", "aab") -> true
 ```
-
-
 
 ### Solution Thought Process
 
@@ -229,7 +209,7 @@ public:
                 result = false;
                 break;
             }
-            else 
+            else
             {
                 if(M[ransomNote[i]]>0)
                 {
@@ -246,15 +226,11 @@ public:
 };
 ```
 
-
-
 ### Complexity:
 
 **Time Complexity:** O(m + n), where m = length of magazine and n = length of ransom note
 
 **Space Complexity:** O(m) where m = length of magazine
-
-
 
 ## 04.05.2020
 
@@ -272,8 +248,6 @@ Output: 2
 Explanation: The binary representation of 5 is 101 (no leading zero bits), and its complement is 010. So you need to output 2.
 ```
 
- 
-
 **Example 2:**
 
 ```
@@ -281,8 +255,6 @@ Input: 1
 Output: 0
 Explanation: The binary representation of 1 is 1 (no leading zero bits), and its complement is 0. So you need to output 0.
 ```
-
- 
 
 **Note:**
 
@@ -303,8 +275,6 @@ public:
 };
 ```
 
-
-
 ### Solution Thought Process
 
 Bitwise problems are better understood if they are demonstrated via number.
@@ -313,39 +283,35 @@ First take a short course on bitwise operations.
 
 - **When you XOR a bit with a 1, it's value is toogled. This is one important property of XOR.**
 
-| **INPUT** |      | **OUTPUT** |
-| --------- | ---- | ---------- |
-| A         | B    | A XOR B    |
-| 0         | 0    | 0          |
-| 0         | 1    | 1          |
-| 1         | 0    | 1          |
-| 1         | 1    | 0          |
+| **INPUT** |     | **OUTPUT** |
+| --------- | --- | ---------- |
+| A         | B   | A XOR B    |
+| 0         | 0   | 0          |
+| 0         | 1   | 1          |
+| 1         | 0   | 1          |
+| 1         | 1   | 0          |
 
 - **When you have a binary number which has 1 in front of it and the later bits are 0, it you subtract 1 from the number, the 1 will become 0, and the 0's will become one.**
 
 For example, let's take 16 in decimal which is 10000 in binary. Let's subtract 1 from it. It become 1111 in binary.
 
 ```
-1 0 0 0 0         1 6 
+1 0 0 0 0         1 6
 
-     -  1         - 1  
+     -  1         - 1
 
 ----------     	 ----
 0 1 1 1 1         1 5
 ```
 
-
-
-So for this problem we need to XOR every bit of the given number with 1. 
+So for this problem we need to XOR every bit of the given number with 1.
 
 So if the number is 10100, then we have to XOR 1 with 0, then 0, then 1, then 0, and then finally 1 from right to left.
 
-
-
-So in a nutshell we have to do XOR like this 
+So in a nutshell we have to do XOR like this
 
 ```
-	1 0 1 0 0 
+	1 0 1 0 0
 ^	1 1 1 1 1
 ------------------
 	0 1 0 1 1
@@ -353,15 +319,11 @@ So in a nutshell we have to do XOR like this
 
 How can we do this?
 
-
-
 First we have to find out what is the length of this binary number. We can do it by using this logarithmic expression:
 
 ```
 floor(log2(num)) +1;
 ```
-
-
 
 How does it find it? Let's take the intuition from 10 based logarithms.
 
@@ -374,13 +336,9 @@ floor(log10(1000)) + 1
 = 4
 ```
 
-
-
 So we have the number of digits here, which means we need to have this five 1's. How to we find five 1's as a number?
 
 Using the second bitwise lesson we can see that if we have 1 followed by five 0's, which is 100000 in binary and then subtract 1 from the number, we will get 11111 in binary.
-
-
 
 **But how do we find 1 followed by five 0's?**
 
@@ -392,11 +350,7 @@ We take the 1, and left shift it's bit by 5, the number of binary digits in the 
 = 32 (In decimal)
 ```
 
-
-
 Voila, we now know where to subtract the 1 from and we will get the number by which we have to perform the XOR.
-
-
 
 ```
 1 0 0 0 0 0
@@ -405,40 +359,28 @@ Voila, we now know where to subtract the 1 from and we will get the number by wh
 0 1 1 1 1 1
 ```
 
-
-
-Let's perform the XOR. It will give us the number with it's bits flipped, 0 becomes 1, 1 becomes 0. 
+Let's perform the XOR. It will give us the number with it's bits flipped, 0 becomes 1, 1 becomes 0.
 
 ```
-	1 0 1 0 0 
+	1 0 1 0 0
 ^	1 1 1 1 1
 ------------------
 	0 1 0 1 1
 ```
 
-
-
 **Yan become Ying, Ying becomes Yan.**
-
-
 
 ### **Gotchas**
 
 - Be careful when creating the mask. We may create overflow when we are creating the mask. So we perform a cast operation to long long int and then subtract 1 in the code, which will take care of the overflow problem. Why? Just give a little thought and you will figure it out.
 
+### **Complexity:**
 
-
-###  **Complexity:**
-
-**Time Complexity:** O(n), where n is the number of digits in binary. We will have to find out the length of binary digits which we can do by dividing the number by 2 repetitively and we have to do the masking operation. Both of them will take max of O(n) time where n is number of binary digits. In the case where we know that the integer is 32 bit, the time is  constant. But when the length is unknown, it will loop over all the binary digits, giving us a time complexity of O(n)
+**Time Complexity:** O(n), where n is the number of digits in binary. We will have to find out the length of binary digits which we can do by dividing the number by 2 repetitively and we have to do the masking operation. Both of them will take max of O(n) time where n is number of binary digits. In the case where we know that the integer is 32 bit, the time is constant. But when the length is unknown, it will loop over all the binary digits, giving us a time complexity of O(n)
 
 **Space Complexity:** O(n) where n is the number of digits in binary. We have to have that much binary digits for the computation.
 
-
-
 ## **05.05.2020**
-
-
 
 ### Problem Statement
 
@@ -487,8 +429,6 @@ public:
 };
 ```
 
-
-
 ### Solution Thought Process
 
 This is a hash map problem. First we count the frequency of the characters in the string by iterating over the string once. Then we iterate through the string again, this time if we find the frequency `1` of a character, we will set this as answer and we break the loop. If no element's frequency which equals to 1, we return `-1` as answer.
@@ -497,17 +437,13 @@ This is a hash map problem. First we count the frequency of the characters in th
 
 **Time Complexity:** O(n), where n = length of s.
 
-**Space Complexity:** O(n), where n = length of s.  
-
-
+**Space Complexity:** O(n), where n = length of s.
 
 ## **06.05.2020**
 
-
-
 ### Problem Statement
 
-Given an array of size *n*, find the majority element. The majority element is the element that appears **more than** `⌊ n/2 ⌋` times.
+Given an array of size _n_, find the majority element. The majority element is the element that appears **more than** `⌊ n/2 ⌋` times.
 
 You may assume that the array is non-empty and the majority element always exist in the array.
 
@@ -554,8 +490,6 @@ public:
 };
 ```
 
-
-
 ### Solution Thought Process
 
 The straight forward solution is to have a hash map to calculate the occurrence and then check if the occurrence is greater than `⌊ n/2 ⌋` times.
@@ -567,11 +501,9 @@ But we can do better with the space. We can make use of the fact that there will
 Let's say the array is,
 
 ```
-nums: 	  2 	1	 3	 1	 1	 2	 1	 1	 2	 1	 1	  3	  1
-idx:      0     1    2   3   4   5	 6	 7   8   9  10   11  12
+nums: 	  2    1    3   1    1    2    1    1    2    1    1    3    1
+idx:      0    1    2   3    4    5    6    7    8    9   10   11   12
 ```
-
-
 
 Let's describe the algorithm. First we have a counter for majority element, let's name it `candidate_count`
 
@@ -587,11 +519,11 @@ and let's call the majority element `candidate`
 
    `candidate_counter=0` and `candidate=3`
 
-5.  `nums[4]=1` because the previous `candidate_count` has been 0 (being demolished by the different element), we can consider this element as a candidate and increase the candidate count. `candidate_count = 1` and `candidate=1`
+5. `nums[4]=1` because the previous `candidate_count` has been 0 (being demolished by the different element), we can consider this element as a candidate and increase the candidate count. `candidate_count = 1` and `candidate=1`
 
 6. `nums[5]=2` the element doesn't match with our previous candidate, so we will decrease the candidate_counter. `candidate_counter = 0` and `candidate = 1`
 
-7. `nums[6]=1` as the `candidate_counter = 0`, let's make this as our candidate. We will increase the candidate_counter by 1, making `candidate_counter=1 ` and `candidate =1`
+7. `nums[6]=1` as the `candidate_counter = 0`, let's make this as our candidate. We will increase the candidate_counter by 1, making `candidate_counter=1` and `candidate =1`
 
 8. `nums[7]=1` as the elements match with our previous candidate, increase the candidate_counter. `candidate_counter=2` and `candidate=1`
 
@@ -601,9 +533,7 @@ and let's call the majority element `candidate`
 
 11. `nums[10]=1` element and candidate match, increase the `candidate_counter` by 1. `candidate_counter=3` and `candidate = 1`
 12. `nums[11]=3` element and candidate doesn't match, decrease the `candidate_counter` by 1. `candidate_counter = 2` and `candidate = 1`
-13. `nums[12] =1` element and candidate match, increase the `candidate_counter` by 1. Making the `candidate_counter=3` and `candidate=1` 
-
-
+13. `nums[12] =1` element and candidate match, increase the `candidate_counter` by 1. Making the `candidate_counter=3` and `candidate=1`
 
 With this algorithm, we can easily find the majority element.
 
