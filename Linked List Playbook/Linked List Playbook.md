@@ -6,8 +6,6 @@ This marks the start of the linked list playbook. Although linked list problems 
 
 1. [Remove Nth Node From End of List](#P01)
 
-
-
 ## Remove Nth Node From End of List <a name="P01"></a>
 
 ### Problem Statement:
@@ -60,8 +58,8 @@ Let's iterate the `firstIterator` `n=2` steps.
 
 ```
      0-> 1-> 2-> 3-> 4-> 5-> NULL
-     		 ^
-     		 |
+             ^
+             |
 		firstIterator
 ```
 
