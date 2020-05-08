@@ -1,5 +1,15 @@
 # LeetCode May Challenge:
 
+# Table of contents
+
+1. [01.05.2020](#01.05.2020)
+2. [02.05.2020](#02.05.2020)
+3. [03.05.2020](#03.05.2020)
+4. [04.05.2020](#04.05.2020)
+5. [05.05.2020](#05.05.2020)
+6. [06.05.2020](#06.05.2020)
+7. [07.05.2020](#07.05.2020)
+
 ## **01.05.2020**
 
 ### Problem Statement
@@ -509,9 +519,9 @@ Let's describe the algorithm. First we have a counter for majority element, let'
 
 and let's call the majority element `candidate`
 
-1. `nums[0]=2`. For now we know that this can be our majority element because we don't have processed any other entries before. Increasing the `candidate_count   ` by 1 and making this element as our candidate. So, `candidate_count=1` and `candidate=2`
-2.  `nums[1]=1`, when we get this, we are sure that 2 and 1 can't be majority elements for the elements we have processed. We will be decreasing the candidate counter by 1. So,`candidate_count=0` and `candidate=2`
-3.  `nums[2]=3`, because the previous `candidate_count` has been 0 (being demolished by the different element), we can start afresh and consider this element as a candidate and increase the candidate count. `candidate_count=1` and `candidate=3`
+1. `nums[0]=2`. For now we know that this can be our majority element because we don't have processed any other entries before. Increasing the `candidate_count` by 1 and making this element as our candidate. So, `candidate_count=1` and `candidate=2`
+2. `nums[1]=1`, when we get this, we are sure that 2 and 1 can't be majority elements for the elements we have processed. We will be decreasing the candidate counter by 1. So,`candidate_count=0` and `candidate=2`
+3. `nums[2]=3`, because the previous `candidate_count` has been 0 (being demolished by the different element), we can start afresh and consider this element as a candidate and increase the candidate count. `candidate_count=1` and `candidate=3`
 4. `nums[3]=1`, the element and candidate are different, which means that this number and the previous candidate doesn't have any chance for being the majority element. Decreasing the candidate counter by 1. So, `candidate_counter=0` and `candidate=3`
 5. `nums[4]=1` because the previous `candidate_count` has been 0 (being demolished by the different element), we can again start afresh and consider this element as a candidate and increase the candidate count by 1. `candidate_count=1` and `candidate=1`
 6. `nums[5]=2` the element doesn't match with our previous candidate, so we will decrease the candidate_counter by 1. So, `candidate_counter=0` and `candidate=1`
@@ -520,14 +530,12 @@ and let's call the majority element `candidate`
 9. `nums[8]=2` as the element doesn't match with our candidate, decrease the candidate_counter by 1. The counter become `1` from `2`, so `candidate_counter > 0` which means that the candidacy of `1` is still valid. `candidate_counter=1` and `candidate=1`
 10. `nums[9]=1` as the element and candidate match, increase the `candidate_counter` by 1. `candidate_counter=2` and `candidate=1`
 11. `nums[10]=1` element and candidate match, increase the `candidate_counter` by 1. `candidate_counter=3` and `candidate=1`
-12. `nums[11]=3` element and candidate doesn't match, decrease the `candidate_counter` by 1. The candidate counter becomes `2 ` from `3`. But because `candidate_counter >  0` , the candidacy of `1` still valid. `candidate_counter=2` and `candidate=1`
+12. `nums[11]=3` element and candidate doesn't match, decrease the `candidate_counter` by 1. The candidate counter becomes `2` from `3`. But because `candidate_counter > 0` , the candidacy of `1` still valid. `candidate_counter=2` and `candidate=1`
 13. `nums[12] =1` element and candidate match, increase the `candidate_counter` by 1. Making the `candidate_counter=3` and `candidate=1`
 
 So our `candidate` is 1 which is ultimately our answer.
 
 With this algorithm, we can easily find the majority element.
-
-
 
 **Can you assume why the `candidate_counter` is 3 at the end of the loop?**
 
@@ -539,17 +547,13 @@ If you count the non-majority elements, you can see that there are 5 of them. Ea
 
 **Space Complexity:** O(1), we are not using any extra space.
 
-
-
-
-
 ## **07.05.2020**
 
 ### Problem Statement
 
 In a binary tree, the root node is at depth `0`, and children of each depth `k` node are at depth `k+1`.
 
-Two nodes of a binary tree are *cousins* if they have the same depth, but have **different parents**.
+Two nodes of a binary tree are _cousins_ if they have the same depth, but have **different parents**.
 
 We are given the `root` of a binary tree with unique values, and the values `x` and `y` of two different nodes in the tree.
 
@@ -582,14 +586,10 @@ Input: root = [1,2,3,null,4], x = 2, y = 3
 Output: false
 ```
 
- 
-
 **Note:**
 
 1. The number of nodes in the tree will be between `2` and `100`.
 2. Each node has a unique integer value from `1` to `100`.
-
- 
 
 ### Solution
 
@@ -666,11 +666,7 @@ For applying the **BFS**, we need the following data structures -
 - `vector<int>depth(101,0)` - a vector for storing depth of each node value, initially setup to 0
 - `int parent_x = -1, parent_y = -1` - two integers for storing parent of x and y respectively.
 
-
-
 The algorithm BFS starts with root and enqueues it. The initial root depth is assigned as `0`. Then it dequeues it and enqueues it's children to the queue, and it goes on and on. The main difference with DFS and BFS is: **in BFS, we visit all the nodes of same depth first**, whereas **in DFS, we get to visit to the lowest depth and working our way up.**
-
-
 
 So when we are dequeuing our node, we check if it has any children (left node or right node). If it has any children, then we set the distance with this formula
 
@@ -685,19 +681,15 @@ Next we check if any of the children is equal to `x` or `y` . If they are equal 
 So, we have got the things we needed to make the decision:
 
 - depth of all nodes which has depth of `x` and `y`
-- parent of `x` and `y` 
+- parent of `x` and `y`
 
 If the **depth of x and y are same and not 0** and **the parents are different**, we return true, otherwise our answer is false.
-
-
 
 ### Complexity
 
 **Time Complexity:** O(V+E), V is the number of vertices and E is the number of edges. For each node, we have to visit all it's edges.
 
 **Space Complexity:** O(V), in worst case we have to hold all of the vertices.
-
-
 
 ## **07.05.2020**
 
@@ -725,8 +717,6 @@ Input: coordinates = [[1,1],[2,2],[3,4],[4,5],[5,6],[7,7]]
 Output: false
 ```
 
- 
-
 **Constraints:**
 
 - `2 <= coordinates.length <= 1000`
@@ -753,11 +743,11 @@ public:
                 tangent_numerator = numerator;
                 tangent_denominator = denominator;
             }
-            else 
+            else
             {
                 if(numerator != tangent_numerator || denominator != tangent_denominator)
                 {
-                    return false;        
+                    return false;
                 }
             }
         }
@@ -769,20 +759,24 @@ public:
 ### Solution Thought Process
 
 Let's solve a simple problem first. We are given 3 coordinates `x1, y1`, `x2,y2` , `x3,y3` . We are told to find if those 3 points form a line. What we would do is, find the tangent of those points and compare them. If they are same, then we can say that the lines are equal.
+
 $$
 tan1 = \frac{y1-y2}{x1-x2}\\
 tan2 = \frac{y2-y3}{x2-x3}
 $$
+
 Say the three points are `(0,2)`, `(10,14)`, `(30,38)`
+
 $$
 tan1 = \frac{2-14}{0-10} = \frac{-12}{-10} = \frac {6}{5}\\
 tan2 = \frac{14-38}{10-30} = \frac{-24}{-20} = \frac{6}{5}
 $$
+
 So we can deduct that those points form a line.
 
 Following this mathematical formula, we can scan all the points in the array, considering only two at a time. For reducing complexity of floating division, we will separate the tangent into two parts - numerator and denominator. For example, in the above formula - `numerator = 6` and `denominator = 5`
 
--  First we find the numerator for those two points (the difference between y coordinates)
+- First we find the numerator for those two points (the difference between y coordinates)
 - We find the denominator for those two points (the difference between x coordinates)
 - We find the gcd of numerator and denominator.
 - We divide numerator and denominator by gcd to get the co-prime form for comparing. For comparing the tangents, we have to reduce them into their co-prime form.
