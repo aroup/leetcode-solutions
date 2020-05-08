@@ -4,14 +4,14 @@
 
 1. [Day 01: First Bad Version](#01.05.2020)
 2. [Day 02: Jewels and Stones](#02.05.2020)
-3. [Day 03: Ransome Note](#03.05.2020)
+3. [Day 03: Ransom Note](#03.05.2020)
 4. [Day 04: Number Complement](#04.05.2020)
 5. [Day 05: First Unique Character in a String](#05.05.2020)
 6. [Day 06: Majority Element](#06.05.2020)
 7. [Day 07: Cousins in Binary Tree](#07.05.2020)
 8. [Day 08: Check If It Is a Straight Line](#08.05.2020)
 
-## 01.05.2020
+## 01.05.2020 <a name="01.05.2020"></a>
 
 ### Problem Statement
 
