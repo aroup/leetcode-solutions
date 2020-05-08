@@ -75,15 +75,17 @@ Let's point our `secondIterator` to the `dummyHead`.
 secondIterator
 ```
 
-Let's move our `firstIterator` and `secondIterator` in tandem **while the next element of secondIterator** is not **NULL**.
+Let's move our `firstIterator` and `secondIterator` in tandem **while the next element of firstIterator** is not **NULL**.
 
+```
         		  firstIterator
                          ^
                          |
      0-> 1-> 2-> 3-> 4-> 5-> NULL
-     	         ^
+                 ^
                  |
      	   secondIterator
+```
 
 `secondIterator` now points to the previous element of the target element which needs to be deleted.
 
