@@ -78,7 +78,7 @@ secondIterator
 Let's move our `firstIterator` and `secondIterator` in tandem **while the next element of firstIterator** is not **NULL**.
 
 ```
-        		  firstIterator
+                    firstIterator
                          ^
                          |
      0-> 1-> 2-> 3-> 4-> 5-> NULL
