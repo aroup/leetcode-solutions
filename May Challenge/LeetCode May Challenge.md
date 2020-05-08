@@ -100,7 +100,7 @@ If we can see that **isBadVersion** is returning true for mid, we can adjust our
 
 **Space Complexity:** O(1), we are not assigning any additional array.
 
-## 02.05.2020
+## 02.05.2020 <a name="02.05.2020"></a>
 
 ### Problem Statement
 
@@ -165,7 +165,7 @@ public:
 
 **Space Complexity:** O(m) where m = length of J
 
-## 03.05.2020
+## 03.05.2020 <a name="03.05.2020"></a>
 
 ### Problem Statement
 
@@ -243,7 +243,7 @@ public:
 
 **Space Complexity:** O(m) where m = length of magazine
 
-## 04.05.2020
+## 04.05.2020 <a name="04.05.2020"></a>
 
 ### Problem Statement
 
@@ -391,7 +391,7 @@ Let's perform the XOR. It will give us the number with it's bits flipped, 0 beco
 
 **Space Complexity:** O(n) where n is the number of digits in binary. We have to have that much binary digits for the computation.
 
-## 05.05.2020
+## 05.05.2020 <a name="05.05.2020"></a>
 
 ### Problem Statement
 
@@ -450,7 +450,7 @@ This is a hash map problem. First we count the frequency of the characters in th
 
 **Space Complexity:** O(n), where n = length of s.
 
-## **06.05.2020**
+## 06.05.2020 <a name="06.05.2020"></a>
 
 ### Problem Statement
 
@@ -548,7 +548,7 @@ If you count the non-majority elements, you can see that there are 5 of them. Ea
 
 **Space Complexity:** O(1), we are not using any extra space.
 
-## 07.05.2020
+## 07.05.2020 <a name="07.05.2020"></a>
 
 ### Problem Statement
 
@@ -692,7 +692,7 @@ If the **depth of x and y are same and not 0** and **the parents are different**
 
 **Space Complexity:** O(V), in worst case we have to hold all of the vertices.
 
-## 08.05.2020
+## 08.05.2020 <a name="08.05.2020"></a>
 
 ### Problem Statement
 
