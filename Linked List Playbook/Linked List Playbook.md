@@ -4,9 +4,11 @@ This marks the start of the linked list playbook. Although linked list problems 
 
 ## Table of Contents:
 
-1. [Remove Nth Node From End of List] (#Remove Nth Node From End of List)
+1. [Remove Nth Node From End of List](#P01)
 
-## Remove Nth Node From End of List <a name="Remove Nth Node From End of List"></a>
+
+
+## Remove Nth Node From End of List <a name="P01"></a>
 
 ### Problem Statement:
 
