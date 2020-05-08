@@ -60,7 +60,7 @@ Let's iterate the `firstIterator` `n=2` steps.
      0-> 1-> 2-> 3-> 4-> 5-> NULL
              ^
              |
-		firstIterator
+        firstIterator
 ```
 
 Let's point our `secondIterator` to the `dummyHead`.
