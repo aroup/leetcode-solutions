@@ -95,6 +95,13 @@ Because 2 + 3 = 5. We have previously moved `firstIterator` 2 nodes, and then mo
 
 Then just appoint the `secondIterator->next` to `secondIterator->next->next` and return the `dummyHead->next`.
 
+```
+     0-> 1-> 2-> 3-> 5-> NULL
+     ^           ^
+     |           |
+dummyHead   secondIterator
+```
+
 ### Solution:
 
 ```c++
