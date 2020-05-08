@@ -1,16 +1,17 @@
 # LeetCode May Challenge:
 
-# Table of contents
+## Table of contents
 
-1. [01.05.2020](#01.05.2020)
-2. [02.05.2020](#02.05.2020)
-3. [03.05.2020](#03.05.2020)
-4. [04.05.2020](#04.05.2020)
-5. [05.05.2020](#05.05.2020)
-6. [06.05.2020](#06.05.2020)
-7. [07.05.2020](#07.05.2020)
+1. [Day 01: First Bad Version](#01.05.2020)
+2. [Day 02: Jewels and Stones](#02.05.2020)
+3. [Day 03: Ransome Note](#03.05.2020)
+4. [Day 04: Number Complement](#04.05.2020)
+5. [Day 05: First Unique Character in a String](#05.05.2020)
+6. [Day 06: Majority Element](#06.05.2020)
+7. [Day 07: Cousins in Binary Tree](#07.05.2020)
+8. [Day 08: Check If It Is a Straight Line](#08.05.2020)
 
-## **01.05.2020**
+## 01.05.2020
 
 ### Problem Statement
 
@@ -390,7 +391,7 @@ Let's perform the XOR. It will give us the number with it's bits flipped, 0 beco
 
 **Space Complexity:** O(n) where n is the number of digits in binary. We have to have that much binary digits for the computation.
 
-## **05.05.2020**
+## 05.05.2020
 
 ### Problem Statement
 
@@ -547,7 +548,7 @@ If you count the non-majority elements, you can see that there are 5 of them. Ea
 
 **Space Complexity:** O(1), we are not using any extra space.
 
-## **07.05.2020**
+## 07.05.2020
 
 ### Problem Statement
 
@@ -691,7 +692,7 @@ If the **depth of x and y are same and not 0** and **the parents are different**
 
 **Space Complexity:** O(V), in worst case we have to hold all of the vertices.
 
-## **07.05.2020**
+## 08.05.2020
 
 ### Problem Statement
 
@@ -760,17 +761,28 @@ public:
 
 Let's solve a simple problem first. We are given 3 coordinates `x1, y1`, `x2,y2` , `x3,y3` . We are told to find if those 3 points form a line. What we would do is, find the tangent of those points and compare them. If they are same, then we can say that the lines are equal.
 
-$$
-tan1 = \frac{y1-y2}{x1-x2}\\
-tan2 = \frac{y2-y3}{x2-x3}
-$$
+```
+        (y1-y2)
+tan1 = ----------
+        (x1-x2)
+
+        (y2-y3)
+tan2 = ---------
+        (x2-x3)
+```
 
 Say the three points are `(0,2)`, `(10,14)`, `(30,38)`
 
-$$
-tan1 = \frac{2-14}{0-10} = \frac{-12}{-10} = \frac {6}{5}\\
-tan2 = \frac{14-38}{10-30} = \frac{-24}{-20} = \frac{6}{5}
-$$
+```
+         (2-14)        -12          6
+tan1 = ----------- = ---------- = ------
+         (0-10)        -10          5
+
+         (14-38)       -24          6
+tan2 = ----------- = ---------- = ------
+         (10-30)       -20          5
+
+```
 
 So we can deduct that those points form a line.
 
