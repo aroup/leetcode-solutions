@@ -6,15 +6,11 @@ This marks the start of the linked list playbook. Although linked list problems 
 
 1. [Remove Nth Node From End of List](#Remove Nth Node From End of List)
 
-
-
-
-
-## Remove Nth Node From End of List  <a name="Remove Nth Node From End of List"></a>
+## Remove Nth Node From End of List <a name="Remove Nth Node From End of List"></a>
 
 ### Problem Statement:
 
-Given a linked list, remove the *n*-th node from the end of list and return its head.
+Given a linked list, remove the _n_-th node from the end of list and return its head.
 
 **Example:**
 
@@ -26,7 +22,7 @@ After removing the second node from the end, the linked list becomes 1->2->3->5.
 
 **Note:**
 
-Given *n* will always be valid.
+Given _n_ will always be valid.
 
 **Follow up:**
 
@@ -36,20 +32,20 @@ Could you do this in one pass?
 
 Initially the linked list looked like this:
 
- ```
+```
 1-> 2-> 3-> 4-> 5-> NULL
- ```
+```
 
 We are adding a dummy head in front of this, so it will look like this:
 
- ```
-   0-> 1-> 2-> 3-> 4-> 5-> NULL
-   ^
-   |
+```
+  0-> 1-> 2-> 3-> 4-> 5-> NULL
+  ^
+  |
 Dummy Head
- ```
+```
 
-Let's create two iterators `firstIterator` and `secondIterator`. `firstIterator` starts from the `dummyHead`. 
+Let's create two iterators `firstIterator` and `secondIterator`. `firstIterator` starts from the `dummyHead`.
 
 ```
      0-> 1-> 2-> 3-> 4-> 5-> NULL
@@ -70,7 +66,7 @@ Let's iterate the `firstIterator` `n=2` steps.
 Let's point our `secondIterator` to the `dummyHead`.
 
 ```
-        firstIterator  
+        firstIterator
              ^
              |
      0-> 1-> 2-> 3-> 4-> 5-> NULL
@@ -81,13 +77,14 @@ secondIterator
 
 Let's move our `firstIterator` and `secondIterator` in tandem **while the next element of secondIterator** is not **NULL**.
 
-        		  firstIterator  
-             			 ^
-             			 |
+        		  firstIterator
+                         ^
+                         |
      0-> 1-> 2-> 3-> 4-> 5-> NULL
      	         ^
-     		     |
+                 |
      	   secondIterator
+
 `secondIterator` now points to the previous element of the target element which needs to be deleted.
 
 **Why?**
@@ -95,8 +92,6 @@ Let's move our `firstIterator` and `secondIterator` in tandem **while the next e
 Because 2 + 3 = 5. We have previously moved `firstIterator` 2 nodes, and then moved the 3 nodes until the list is empty, the`secondIterator` moved 3 node and reached just before the target element to be deleted.
 
 Then just appoint the `secondIterator->next` to `secondIterator->next->next` and return the `dummyHead->next`.
-
-
 
 ### Solution:
 
@@ -132,8 +127,6 @@ public:
     }
 };
 ```
-
-
 
 ### Complexity
 
