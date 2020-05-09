@@ -865,8 +865,6 @@ public:
 
 We can solve the problem using linear time, where we are checking every value and it's square starting from 1. We will terminate the loop when we have a found a square which is equal to the number. If we haven't found and the squared value is greater than number, then we return false.
 
-
-
 But we can do better here using binary search. We set the `L = 0` and `U = num`. We set the mid according to binary search rules. Then we calculate it's square value, if the square value is greater than num, it means that any number less than mid can have a chance for being the square root. So we adjust the upper limit to `mid-1`.
 
 If we see that the squared value is less than num, then we can say that any number greater than mid can have a chance for being the square root. So we adjust the lower limit to `mid+1`.
