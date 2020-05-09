@@ -10,6 +10,7 @@
 6. [Day 06: Majority Element](#06.05.2020)
 7. [Day 07: Cousins in Binary Tree](#07.05.2020)
 8. [Day 08: Check If It Is a Straight Line](#08.05.2020)
+9. [Day 09: Valid Perfect Square](#09.05.2020)
 
 ## 01.05.2020 <a name="01.05.2020"></a>
 
@@ -692,6 +693,8 @@ If the **depth of x and y are same and not 0** and **the parents are different**
 
 **Space Complexity:** O(V), in worst case we have to hold all of the vertices.
 
+
+
 ## 08.05.2020 <a name="08.05.2020"></a>
 
 ### Problem Statement
@@ -802,3 +805,79 @@ Following this mathematical formula, we can scan all the points in the array, co
 **Time Complexity:** O(n), we are just iterating over the points.
 
 **Space Complexity:** O(1).
+
+
+
+## 09.05.2020 <a name="09.05.2020"></a>
+
+### Problem Statement
+
+Given a positive integer *num*, write a function which returns True if *num* is a perfect square else False.
+
+**Note:** **Do not** use any built-in library function such as `sqrt`.
+
+**Example 1:**
+
+```
+Input: 16
+Output: true
+```
+
+**Example 2:**
+
+```
+Input: 14
+Output: false
+```
+
+### Solution
+
+```c++
+class Solution {
+public:
+    bool isPerfectSquare(int num) {
+        int L = 0, U = num;
+        bool result = false;
+        while(L<=U)
+        {
+            long long mid = L + (U-L)/2;
+            long long squaredValue = mid * mid;
+            if(squaredValue > num)
+            {
+                U = mid-1;
+            }
+            else if(squaredValue < num)
+            {
+                L = mid+1;
+            }
+            else 
+            {
+                result = true;
+                break;
+            }
+        }
+        return result; 
+    }
+};
+```
+
+### Solution Thought Process
+
+We can solve the problem using linear time, where we are checking every value and it's square starting from 1. We will terminate the loop when we have a found a square which is equal to the number. If we haven't found and the squared value is greater than number, then we return false.
+
+
+
+But we can do better here using binary search. We set the `L = 0` and `U = num`. We set the mid according to binary search rules. Then we calculate it's square value, if the square value is greater than num, it means that any number less than mid can have a chance for being the square root. So we adjust the upper limit to `mid-1`.
+
+If we see that the squared value is less than num, then we can say that any number greater than mid can have a chance for being the square root. So we adjust the lower limit to `mid+1`.
+
+If the squared value is equal to `num`, we return true and break the binary search.
+
+### Complexity
+
+**Time Complexity:** O(logn), we are just iterating over the points.
+
+**Space Complexity:** O(1).
+
+
+
