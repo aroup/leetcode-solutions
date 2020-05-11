@@ -11,7 +11,9 @@
 7. [Day 07: Cousins in Binary Tree](#07.05.2020)
 8. [Day 08: Check If It Is a Straight Line](#08.05.2020)
 9. [Day 09: Valid Perfect Square](#09.05.2020)
-10. [Day10: Find the Town Judge](#10.05.2020)
+10. [Day 10: Find the Town Judge](#10.05.2020)
+11. [Day 11: Flood Fill](#11.05.2020)
+12. 
 
 ## 01.05.2020 <a name="01.05.2020"></a>
 
@@ -986,6 +988,150 @@ public:
 **Time Complexity:** O(n).
 
 **Space Complexity:** O(n).
+
+
+
+## 11.05.2020 <a name="11.05.2020"></a>
+
+### Problem Statement
+
+An `image` is represented by a 2-D array of integers, each integer representing the pixel value of the image (from 0 to 65535).
+
+Given a coordinate `(sr, sc)` representing the starting pixel (row and column) of the flood fill, and a pixel value `newColor`, "flood fill" the image.
+
+To perform a "flood fill", consider the starting pixel, plus any pixels connected 4-directionally to the starting pixel of the same color as the starting pixel, plus any pixels connected 4-directionally to those pixels (also with the same color as the starting pixel), and so on. Replace the color of all of the aforementioned pixels with the newColor.
+
+At the end, return the modified image.
+
+**Example 1:**
+
+```
+Input: 
+image = [[1,1,1],[1,1,0],[1,0,1]]
+sr = 1, sc = 1, newColor = 2
+Output: [[2,2,2],[2,2,0],[2,0,1]]
+Explanation: 
+From the center of the image (with position (sr, sc) = (1, 1)), all pixels connected 
+by a path of the same color as the starting pixel are colored with the new color.
+Note the bottom corner is not colored 2, because it is not 4-directionally connected
+to the starting pixel.
+```
+
+
+
+**Note:**
+
+The length of `image` and `image[0]` will be in the range `[1, 50]`.
+
+The given starting pixel will satisfy `0 <= sr < image.length` and `0 <= sc < image[0].length`.
+
+The value of each color in `image[i][j]` and `newColor` will be an integer in `[0, 65535]`.
+
+### Solution
+
+```c++
+class Solution {
+private:
+    struct Coordinate{
+        int x,y;    
+    };
+    const array<array<int,2>,4> kShift = {{{0,1},{0,-1},{1,0},{-1,0}}};
+public:
+    vector<vector<int>> floodFill(vector<vector<int>>& image, int sr, int sc, int newColor) {
+        Coordinate s{sr,sc};
+        queue<Coordinate>q;
+        int oldColor = image[s.x][s.y];
+        image[s.x][s.y] = newColor;
+        if(oldColor == newColor)
+        {
+            return image;
+        }
+        q.emplace(s);
+        while(!q.empty())
+        {
+            Coordinate curr = q.front();
+            for(const array<int,2>& dir: kShift)
+            {
+                const Coordinate next{curr.x + dir[0], curr.y + dir[1]};
+                if(isFeasible(image, next, oldColor))
+                {
+                    image[next.x][next.y] = newColor;
+                    q.emplace(next);
+                }
+            }
+            q.pop();
+        }
+        return image;
+    }
+    
+    bool isFeasible(vector<vector<int>>& image, const Coordinate& curr, int oldColor)
+    {
+        return curr.x >= 0 && curr.x < image.size() && curr.y >=0 && curr.y < image[0].size() && image[curr.x][curr.y] == oldColor;
+    }
+};
+```
+
+### Solution Thought Process
+
+We have a 2D array. When we are on an element in that array, we can go up, down, left and right. Imagine that cells are vertices, then you can visualize that relation of going up, down, left and right as moving from one vertice from another via edges. This problem tells us to start at a vertices and paint colors to all of the vertices.
+
+So we have to find out from one node, what other nodes we can reach. DFS or BFS both will work here in this problem to find reachability.
+
+
+
+For directions, we make use of the direction array.
+
+```c++
+const array<array<int,2>,4> kShift = {{{0,1},{0,-1},{1,0},{-1,0}}};
+```
+
+
+
+For vertices, we can create a structure for x and y coordinates (mainly the row and column numbers). We declare it like this:
+
+```c++
+struct Coordinate{
+	int x,y;    
+};
+```
+
+We can convert any row and column number to a Coordinate Structure like this:
+
+```c++
+Coordinate s{sr,sc};
+```
+
+After that we do the standard BFS enqueuing and dequeuing operations. We enqueue the root, the dequeue it and enqueue it's children. As we know the chlidren should be lying up, down, right, left in these 4 directions, we make use of the direction array. 
+
+We also have to check if the move is feasible. For feasibility checking, we check if the cell we are looking for is not out of bounds and the cell has the same color as the source cell given to us.
+
+```c++
+bool isFeasible(vector<vector<int>>& image, const Coordinate& curr, int oldColor)
+{
+	return curr.x >= 0 && curr.x < image.size() && curr.y >=0 && curr.y < image[0].size() && image[curr.x][curr.y] == oldColor;
+}
+```
+
+
+
+**Gotchas**
+
+If the old color of the source and the given `newColor` is same, we just have to return the whole 2D vector without doing anything.
+
+```c++
+if(oldColor == newColor)
+{
+    return image;
+}
+```
+
+
+
+### Complexity
+
+**Time Complexity:** O(mn) where, m = row length, n = column length. At most, we have to visit all of the nodes.
+
+**Space Complexity:** O(mn) where, m = row length, n = column length. 
 
 
 
