@@ -13,7 +13,11 @@
 9. [Day 09: Valid Perfect Square](#09.05.2020)
 10. [Day 10: Find the Town Judge](#10.05.2020)
 11. [Day 11: Flood Fill](#11.05.2020)
-12. 
+12. [Day 12: Single Element in a Sorted Array](#12.05.2020)
+13. [Day 13: Remove K digits](#13.05.2020)
+14. [Day 14: Implement Trie (Prefix tree)](#14.05.2020)
+15. [Day 15: Maximum Sum Circular Subarray](#15.05.2020)
+16. 
 
 ## 01.05.2020 <a name="01.05.2020"></a>
 
@@ -1137,3 +1141,1324 @@ if(oldColor == newColor)
 
 
 
+## 12.05.2020 <a name="12.05.2020"></a>
+
+### Problem Statement
+
+You are given a sorted array consisting of only integers where every element appears exactly twice, except for one element which appears exactly once. Find this single element that appears only once.
+
+ 
+
+**Example 1:**
+
+```
+Input: [1,1,2,3,3,4,4,8,8]
+Output: 2
+```
+
+**Example 2:**
+
+```
+Input: [3,3,7,7,10,11,11]
+Output: 10
+```
+
+ 
+
+**Note:** Your solution should run in O(log n) time and O(1) space.
+
+
+
+### Solution
+
+```c++
+class Solution {
+public:
+    int singleNonDuplicate(vector<int>& nums) {
+        int L=0, U=nums.size()-1;
+        int result;
+        while(L<=U)
+        {
+            if(L==U)
+            {
+                result = nums[L];
+                break;
+            }
+            int M = L+(U-L)/2;
+            int consideredLength = M-L+1;
+            if(consideredLength%2 == 1)
+            {
+                if(M-1>=0 && nums[M] == nums[M-1]) {
+                    U = M-2;
+                }
+                else if(M+1<= nums.size()-1 && nums[M] == nums[M+1]) {
+                    L = M+2;
+                }
+                else {
+                    result = nums[M];
+                    break;
+                }
+            }
+            else {
+                if(M+1<= nums.size()-1 && nums[M] == nums[M+1]) {
+                    U = M-1;
+                }
+                else if(M-1>=0 && nums[M] == nums[M-1]) {
+                    L = M+1;
+                }
+                else {
+                    result = nums[M];
+                    break;
+                }
+            }
+        }
+        return result;
+        
+    }
+};
+```
+
+
+
+### Solution Thought Process
+
+I solved this problem using binary search. First, we get the middle element of the range using low and high.
+
+We get the length considered by calculating:
+
+```
+consideredLength = M-L+1
+```
+
+1. Let's consider if this length is odd.
+
+```
+1    1    2    2    3
+0    1    2    3    4
+
+L = 0, U = 4
+
+M = 0 + (4-0)/2 = 2
+```
+
+So`[L, M]` is odd in length. If this is the case, if `nums[M] == nums[M+1]`, it means that the element can be found from element index `M+2`. So we make `L=M+2`
+
+Let's see another case,
+
+```
+1    2    2    3    3
+0    1    2    3    4
+
+L = 0, U = 4
+
+M = 0 + (4-0)/2 = 2
+```
+
+So `[L, M]` is odd in length. If `nums[M] == nums[M-1]` , it means that the element can be found before element index `M-2` , included.
+
+If those are not the case, then `nums[M]` is the result and we break the loop. 
+
+2. Let's consider if the considered length is even.
+
+```
+1    1    2    3    3    5    5  
+0    1    2    3    4    5    6
+
+L = 0, U = 6
+
+M = 0 + (6-0)/2 = 3
+```
+
+So `[L, M]` is even in length. If `nums[M] == nums[M+1]`, it means that the element can be found before element index `M-1`, included . So we make `U = M-1`
+
+```
+1    1    2    2    3    5    5  
+0    1    2    3    4    5    6
+
+L = 0, U = 6
+
+M = 0 + (6-0)/2 = 3
+```
+
+So `[L, M]` is even in length. If `nums[M]==nums[M-1]`, it means that the element can be found from element index `M+1`. So we make `L=M+1`.
+
+If we have got `L` and `U` as the same element, we return the element as the result.
+
+
+
+### Complexity
+
+**Time Complexity:** O(logn), we are making the consideration space half in every iteration.
+
+**Space Complexity:** O(1)
+
+
+
+## 13.05.2020 <a name="13.05.2020"></a>
+
+### Problem Statement
+
+Given a non-negative integer *num* represented as a string, remove *k* digits from the number so that the new number is the smallest possible.
+
+**Note:**
+
+- The length of *num* is less than 10002 and will be ≥ *k*.
+- The given *num* does not contain any leading zero.
+
+
+
+**Example 1:**
+
+```
+Input: num = "1432219", k = 3
+Output: "1219"
+Explanation: Remove the three digits 4, 3, and 2 to form the new number 1219 which is the smallest.
+```
+
+
+
+**Example 2:**
+
+```
+Input: num = "10200", k = 1
+Output: "200"
+Explanation: Remove the leading 1 and the number is 200. Note that the output must not contain leading zeroes.
+```
+
+
+
+**Example 3:**
+
+```
+Input: num = "10", k = 2
+Output: "0"
+Explanation: Remove all the digits from the number and it is left with nothing which is 0
+```
+
+
+
+### Solution
+
+```c++
+class Solution {
+  public:
+    string removeKdigits(string num, int k) {
+      int stringLength = num.size();
+      if (stringLength == k) {
+        return "0";
+      }
+      stack < char > S;
+      int n = k, idx = 0;
+      while (idx < stringLength) {
+        int currentNumber = num[idx] - '0';
+        while(n > 0 && !S.empty() && (S.top()-'0') > currentNumber)
+        {
+                n--;
+                S.pop();
+        }
+        S.emplace(num[idx]);
+        idx++;
+      }
+        
+      while(n>0)
+      {
+         S.pop();
+         n--;
+      }
+
+      string result;
+      while (!S.empty()) {
+        char digit = S.top();
+        S.pop();
+        result += digit;
+      }
+        
+        
+      idx = result.size() - 1;
+      while (idx >= 0) {
+        char digit = result[idx];
+        if (digit - '0' > 0) {
+          break;
+        }
+        result.erase(idx);
+        idx--;
+      }
+      reverse(result.begin(), result.end());
+      if(result == "") result = "0";
+      return result;
+    }
+};
+```
+
+
+
+### Solution Thought Process
+
+If the string length is k, then we have to remove all the digits, returning "0" as the answer.
+
+```C++
+int stringLength = num.size();
+if (stringLength == k) {
+    return "0";
+}
+```
+
+
+
+This problem uses a pattern which I like to call Stack Squashing. I learnt it from a friend of mine, Ahnaf, who now works at Amazon. Suppose you have a stack which currently stores some element. Those elements have some special kind of power. When we are putting elements on the stack, the element which we are putting sees if it is more powerful the top element of the stack, and while it sees that the top element of the stack is less powerful than it, it destroys them. If is has destroyed all the elements less powerful than it and has found a more powerful element than it or the stack has become empty, it gets pushed into the stack.
+
+
+
+Let's learn it through the example. Let's keep the elements on the stack which we will be considering as numbers. Here the power we will be considering is the lightness of the element. The smaller the element, the powerful it is.
+
+The number is `1432219`, we have to delete 3 elements.
+
+1. First we put the number 1, because the stack is empty, we push it. It goes to the bottom. We haven't deleted any element.
+
+```
+Stack                    Stack
+Bottom  ->               Top
+1
+```
+
+2. Next the element is 4, because top element is powerful than the element, we push it in the stack. We haven't deleted any element.
+
+```
+Stack                    Stack
+Bottom  ->               Top
+1   4
+```
+
+3. Element is 3, and top element is less powerful, so we squash/destory it. After that the top element is 1, which is more powerful. We have deleted one element.
+
+```
+Stack                    Stack
+Bottom  ->               Top
+1   3
+```
+
+4. Element is 2, top element is less powerful, so we squash/destroy it. After that the top element is 1, which is more powerful. We have deleted two element.
+
+```
+Stack                    Stack
+Bottom  ->               Top
+1   2
+```
+
+5. Element is 2, top element is equal. We push it on the stack.
+
+```
+Stack                    Stack
+Bottom  ->               Top
+1   2   2
+```
+
+6. Element is 1, top element is less powerful, so we squash/destroy it. After that the top element is 2, but we have already deleted 3 elements. So we can't delete more.
+
+```
+Stack                    Stack
+Bottom  ->               Top
+1   2   1
+```
+
+7. Element is 9. We push it into the stack without thinking anything  because we can't delete it.
+
+```
+Stack                    Stack
+Bottom  ->               Top
+1   2   1   9
+```
+
+
+
+There is a caveat on this approach, if all the numbers are of same power, it would not delete the numbers. Suppose we have some number like "1111" and 2 items to delete, following this algorithm will not help us doing so. So we have to add a little edge case handling.
+
+```c++
+while(n>0)
+{
+	S.pop();
+	n--;
+}
+```
+
+
+
+Next we pop from the stack to create the number, the number would be in reverse order. 
+
+```c++
+string result;
+while (!S.empty()) {
+    char digit = S.top();
+    S.pop();
+    result += digit;
+}
+```
+
+
+First we remove all the 0s in the front. Suppose the number in reverse is like this: "000321". We have to remove first 3 0s then our original number "321" would be there.
+
+```c++
+while (idx >= 0) {
+    char digit = result[idx];
+    if (digit - '0' > 0) {
+       break;
+    }
+    result.erase(idx);
+    idx--;
+}
+```
+
+
+
+Next we reverse the string.
+
+```c++
+reverse(result.begin(), result.end());
+```
+
+
+
+Then we return the string as answer.
+
+
+
+### Complexity
+
+**Time Complexity:** O(n), we are iterating over the array once.
+
+**Space Complexity:** O(n), we have to at most save the whole number in the stack and in the result string.
+
+
+
+
+
+## 14.05.2020 <a name="14.05.2020"></a>
+
+### Problem statement
+
+Implement a trie with `insert`, `search`, and `startsWith` methods.
+
+**Example:**
+
+```
+Trie trie = new Trie();
+
+trie.insert("apple");
+trie.search("apple");   // returns true
+trie.search("app");     // returns false
+trie.startsWith("app"); // returns true
+trie.insert("app");   
+trie.search("app");     // returns true
+```
+
+**Note:**
+
+- You may assume that all inputs are consist of lowercase letters `a-z`.
+- All inputs are guaranteed to be non-empty strings.
+
+
+
+### Solution
+
+```c++
+class Trie {
+private:
+    struct TrieNode {
+        bool isString = false;
+        unordered_map<char,TrieNode*> leaves;
+    };
+    
+    TrieNode* root = new TrieNode();
+public:
+    /** Initialize your data structure here. */
+    Trie() {
+        
+    }
+    
+    /** Inserts a word into the trie. */
+    void insert(string word) {
+        TrieNode* p = root;
+        for(char c: word)
+        {
+            if(p->leaves.find(c)==p->leaves.end())
+            {
+                p->leaves[c] = new TrieNode();
+            }
+            p = p->leaves[c];
+        }
+        
+        if(p->isString==false)
+        {
+            p->isString = true;
+        }
+    }
+    
+    /** Returns if the word is in the trie. */
+    bool search(string word) {
+        TrieNode* p = root;
+        for(char c:word)
+        {
+            if(p->leaves.find(c)==p->leaves.end())
+            {
+                return false;
+            }
+            p = p->leaves[c];
+        }
+        if(p->isString)
+        {
+            return true;
+        }
+        return false;
+    }
+    
+    /** Returns if there is any word in the trie that starts with the given prefix. */
+    bool startsWith(string prefix) {
+        TrieNode* p = root;
+        for(char c:prefix)
+        {
+            if(p->leaves.find(c) == p->leaves.end())
+            {
+                return false;
+            }
+            p = p->leaves[c];
+        }
+        return true;
+        
+    }
+};
+
+/**
+ * Your Trie object will be instantiated and called as such:
+ * Trie* obj = new Trie();
+ * obj->insert(word);
+ * bool param_2 = obj->search(word);
+ * bool param_3 = obj->startsWith(prefix);
+ */
+```
+
+
+
+### Solution Thought Process
+
+Each of the trie node has two elements.
+
+- `isString` , if this node marks an end to a string
+- `unordered_map<char, TrieNode*>` , a hash map of characters which map to TrieNodes.
+
+First we declare the structure of the trie node and the root of trie globally.
+
+```c++
+struct TrieNode {
+    bool isString = false;
+    unordered_map<char,TrieNode*> leaves;
+};
+
+TrieNode* root = new TrieNode();
+```
+
+
+
+**How does insertion work?**
+
+Suppose we have to words "abc" and "abd". The first word is already stored in the Trie. The Trie looks like this:
+
+```
+root ---->  a (isString = false)  ---->  b (isString = false) ----> c (isString = true)
+```
+
+
+
+If we look the string "abd", we can see the first two characters are available in the Trie. The second node has `c` as a leave, but it doesn't have `d` as a leave. So we add it. But it marks the end of the string, so we make the `isString` of that node to be `true`.
+
+```
+
+root ---->  a (isString = false)  ---->  b (isString = false) ----> c (isString = true) 
+                                         | 
+                                         |
+                                         -------------> d (isString = true)
+
+```
+
+
+
+**How does search work?**
+
+We start from root and search for the characters of the string one by one. 
+
+- For "abd" in the previous example, first we see if the leaves of the root and check for 'a', we have found it. We go to the node 'a'.
+- From node 'a', we search the leaves to find 'b', we have found it and go to node 'b'.
+- From node 'b', we search the leaves to find 'd', we have found it and go to node 'd'.
+- In the node 'd', we look at the `isString` boolean. If it's true, that means that we have found one string ends on this node. Because we have iterated the whole string and came to this node, we can say that the string is available in the trie.
+
+
+
+**How does prefix search work?**
+
+Suppose we have to search for "ab" prefix in the trie in the above example. We start from root and search for the characters of the string one by one.
+
+-  First we see if the leaves of the root and check for 'a', we have found it. We go to the node 'a'.
+- From node 'a', we search the leaves to find 'b', we have found it and go to node 'b'.
+
+We have found both of characters in that order in the trie, which means it exists as a prefix. The solution is similar to search, but it doesn't care about `isString`
+
+
+
+### Complexity
+
+**Time Complexity** : 
+
+For inserting, O(nk), k = is the average word length, n = number of words 
+
+For Searching, O(k), where k is the search key length.
+
+
+
+## 15.05.2020 <a name="15.05.2020"></a>
+
+### Problem statement
+
+Given a **circular array** **C** of integers represented by `A`, find the maximum possible sum of a non-empty subarray of **C**.
+
+Here, a *circular array* means the end of the array connects to the beginning of the array. (Formally, `C[i] = A[i]` when `0 <= i < A.length`, and `C[i+A.length] = C[i]` when `i >= 0`.)
+
+Also, a subarray may only include each element of the fixed buffer `A` at most once. (Formally, for a subarray `C[i], C[i+1], ..., C[j]`, there does not exist `i <= k1, k2 <= j` with `k1 % A.length = k2 % A.length`.)
+
+ 
+
+**Example 1:**
+
+```
+Input: [1,-2,3,-2]
+Output: 3
+Explanation: Subarray [3] has maximum sum 3
+```
+
+**Example 2:**
+
+```
+Input: [5,-3,5]
+Output: 10
+Explanation: Subarray [5,5] has maximum sum 5 + 5 = 10
+```
+
+**Example 3:**
+
+```
+Input: [3,-1,2,-1]
+Output: 4
+Explanation: Subarray [2,-1,3] has maximum sum 2 + (-1) + 3 = 4
+```
+
+**Example 4:**
+
+```
+Input: [3,-2,2,-3]
+Output: 3
+Explanation: Subarray [3] and [3,-2,2] both have maximum sum 3
+```
+
+**Example 5:**
+
+```
+Input: [-2,-3,-1]
+Output: -1
+Explanation: Subarray [-1] has maximum sum -1
+```
+
+ 
+
+**Note:**
+
+1. `-30000 <= A[i] <= 30000`
+2. `1 <= A.length <= 30000`
+
+### Solution
+
+```c++
+class Solution {
+public:
+    int maxSubarraySumCircular(vector<int>& A) {
+        return max(FindMaxSubarray(A), FindCircularMaxSubarray(A));
+    }
+    
+    int FindMaxSubarray(vector <int>& A)
+    {
+        int maximumTill = 0, maximum = numeric_limits<int>::min();
+        for(int a:A)
+        {
+            /* 
+            We have two options
+               1. Start a new subarray
+               2. Continue the previous subarray
+            */ 
+            maximumTill = max(a, a+maximumTill);
+            maximum = max(maximum, maximumTill);
+        }
+        return maximum;
+    }
+    
+    int FindCircularMaxSubarray(vector <int>& A)
+    {
+         // Maximum subarray sum starts at index 0 and ends at or before index i
+        vector<int>maximumBegin;
+        int sum = A.front();
+        maximumBegin.emplace_back(sum);
+        for(int i=1;i<A.size();i++)
+        {
+            sum += A[i];
+            maximumBegin.emplace_back(max(maximumBegin.back(),sum));
+        }
+        
+        
+        // Maximum subarray sum starts at index i+1 and ends at the last element
+        vector<int> maximumEnd(A.size());
+        maximumEnd.back() = 0;
+        sum = 0;
+        for(int i=A.size()-2;i>=0;--i)
+        {
+            sum+= A[i+1];
+            maximumEnd[i] = max(maximumEnd[i+1],sum);
+        }
+        
+        // calculates the maximum subarray which is circular
+        
+        int circularMax = INT_MIN;
+        for(int i=0;i<A.size();i++)
+        {
+            circularMax = max(circularMax, maximumBegin[i]+maximumEnd[i]);
+        }
+        return circularMax;
+    }
+};
+```
+
+
+
+### Solution Thought Process
+
+First intuition is, the maximum circular subarray can be two things:
+
+- It can be a regular subarray without circularity. Take this array for example:
+
+```
+arr  [-1,  -2,  -3,  4,  5,  6,  -1]
+idx    0    1    2   3   4   5    6
+```
+
+Here the answer is 9, and the subarray is the index [3,4]
+
+- It can be circular, meaning that the subarray takes all the element till the end of the array and takes some more element from the front of the array, because we have given circular access. Take this array for example:
+
+```
+arr  [ 1,  -2,  -3,  7, -2,  7]
+idx    0    1    2   3   4   5
+```
+
+Here the answer is 13, we have to take [3,5] and [0] both as a solution space giving us the maximum circular subarray.
+
+
+
+We find out those two elements and take the max of them. That is our answer.
+
+```c++
+int maxSubarraySumCircular(vector<int>& A) {
+   return max(FindMaxSubarray(A), FindCircularMaxSubarray(A));
+}
+```
+
+
+
+First let's work on the `FindMaxSubarray` part. The algorithm is, on each index, we make two decisions -
+
+- We start a new subarray with this index element.
+- We continue the previous subarray with this index element.
+
+After that we get the maximum returned from that function.
+
+
+
+```c++
+int FindMaxSubarray(vector <int>& A)
+{
+    int maximumTill = 0, maximum = numeric_limits<int>::min();
+    for(int a:A)
+    {
+        /* 
+            We have two options
+               1. Start a new subarray - Taking a
+               2. Continue the previous subarray - Taking a+maximumTill
+        */ 
+        maximumTill = max(a, a+maximumTill);
+        maximum = max(maximum, maximumTill);
+    }
+    return maximum;
+}
+```
+
+
+
+Let's work on the `FindCircularMaxSubarray` function next. We are assuming that the circular  Let's check out it's intuition. Let's consider this array with elements:
+
+```
+a(0)   a(1)  a(2)  a(3)  a(4)  ..... a(i) ......  a(n-2)   a(n-1) 
+```
+
+
+
+For every index `i` we calculate two things:
+
+- Maximum subarray sum starts at index 0 and ends at or before index i
+
+- Maximum subarray sum starts at index i+1 and ends at the last element
+
+
+
+If we have those two values, we can iterate over every _i_ , add those two values and find out the maximum value. 
+
+
+
+**Why?**
+
+Let's think about the circular subarray. If the maximum subarray is not in the middle of the array, then it should have some elements from the index `0 to i`, not necessarily all the elements. Also the subarray should have some elements from the `n-1 to the i+1` element, not necessarily all the elements. So we take those two sums for the `i` th index and take the maximum value over all index `i`.
+
+
+
+For finding maximum subarray sum starts at index 0 and ends at or before index i, we make use of this code:
+
+```c++
+ vector<int>maximumBegin;
+ int sum = A.front();
+ maximumBegin.emplace_back(sum);
+ for(int i=1;i<A.size();i++)
+ {
+     sum += A[i];
+     maximumBegin.emplace_back(max(maximumBegin.back(),sum));
+ }
+```
+
+Applying this algorithm, we get the following `maximumBegin` vector:
+
+```
+arr           [ 1,  -2,  -3,  7, -2,  7]
+idx             0    1    2   3   4   5
+sum             1   -1   -4   3   1   8             
+maximumBegin    1    1    1   3   3   8
+```
+
+All the subarray sum starting at 0 and ends at or before index i gets stored at `maximumBegin` vector.
+
+For finding maximum subarray sum starts at index i+1 and ends at the last element we make use of this code:
+
+```c++0
+vector<int> maximumEnd(A.size());
+maximumEnd.back() = 0;
+sum = 0;
+for(int i=A.size()-2;i>=0;--i)
+{
+    sum+= A[i+1];
+    maximumEnd[i] = max(maximumEnd[i+1],sum);
+}
+```
+
+Applying this algorithm, we get the following `maximumBegin` vector:
+
+```
+arr           [ 1,  -2,  -3,  7, -2,  7]
+idx             0    1    2   3   4   5
+sum             7    9   12   5   7   0
+maximumEnd     12   12   12   7   7   0         
+```
+
+
+
+All the subarray sum starts at index i+1 and ends at the last element gets stored at `maximumEnd` vector.
+
+
+
+Now we iterate over all the indices `i` and get the circular maximum.
+
+```c++
+int circularMax = INT_MIN;
+for(int i=0;i<A.size();i++)
+{
+	circularMax = max(circularMax, maximumBegin[i]+maximumEnd[i]);
+}
+return circularMax;
+```
+
+
+
+Let's see the function in action with example:
+
+```
+arr           [ 1,  -2,  -3,  7, -2,  7]
+idx             0    1    2   3   4   5           
+maximumBegin    1    1    1   3   3   8
+maximumEnd     12   12   12   7   7   0
+circularSum    13   13   13  10  10   8
+```
+
+From the array, we can see the maximum circular sum is 13, so we return 13 as our `circularMax` .
+
+
+
+This ends our `FindCircularMaxSubarray` function. Next we just compare the two functions ``FindCircularMaxSubarray` and `FindMaxSubarray`, and return the maximum value as our result.
+
+
+
+### Complexity
+
+**Time Complexity:** O(n)
+
+**Space Complexity**: O(n)
+
+
+
+## 16.05.2020 <a name="16.05.2020"></a>
+
+### Problem Statement
+
+Given a singly linked list, group all odd nodes together followed by the even nodes. Please note here we are talking about the node number and not the value in the nodes.
+
+You should try to do it in place. The program should run in O(1) space complexity and O(nodes) time complexity.
+
+**Example 1:**
+
+```
+Input: 1->2->3->4->5->NULL
+Output: 1->3->5->2->4->NULL
+```
+
+**Example 2:**
+
+```
+Input: 2->1->3->5->6->4->7->NULL
+Output: 2->3->6->7->1->5->4->NULL
+```
+
+**Note:**
+
+- The relative order inside both the even and odd groups should remain as it was in the input.
+- The first node is considered odd, the second node even and so on ...
+
+### Solution
+
+```c++
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* oddEvenList(ListNode* head) {
+        ListNode* oddLinkedList = new ListNode();
+        ListNode* evenLinkedList = new ListNode();
+        ListNode* oddIterator = oddLinkedList;
+        ListNode* evenIterator = evenLinkedList;
+        ListNode* iterator = head;
+        int counter = 1;
+        while(iterator)
+        {
+            if(counter % 2)
+            {
+                oddIterator->next = iterator;
+                iterator = iterator->next;
+                oddIterator = oddIterator->next;
+                oddIterator->next = NULL;
+            }
+            else {
+                evenIterator->next = iterator;
+                iterator = iterator->next;
+                evenIterator = evenIterator->next;
+                evenIterator->next = NULL;
+            }
+            counter++;
+        }
+        oddIterator->next = evenLinkedList->next;
+        evenIterator->next = NULL;
+        return oddLinkedList->next;
+    }
+};
+```
+
+
+
+### Solution Thought Process
+
+For this problem, we have to create two linked list:
+
+- `OddLinkedList` - for containing odd index elements
+- `EvenLinkedList` - for containing even index elements
+
+We iterate over the linked list, we initialize a counter to 1. Whenever -
+
+- The counter is divisible by 2, we add the node to the `OddLinkedList`
+- The counter is divisible by 1, we add the node to the `EvenLinkedList`
+
+
+
+After that we merge the tail of `OddLinkedList` to the `EvenLinkedList` head. And in the end, we make the tail of `EvenLinkedList` point to `NULL` to make sure that the linked list has ended in `NULL`.
+
+
+
+###  Complexity:
+
+**Time Complexity**: O(n)
+
+**Space Complexity:** O(1)
+
+
+
+
+
+## 17.05.2020 <a name="17.05.2020"></a>
+
+### Problem Statement
+
+Given a string **s** and a **non-empty** string **p**, find all the start indices of **p**'s anagrams in **s**.
+
+Strings consists of lowercase English letters only and the length of both strings **s** and **p** will not be larger than 20,100.
+
+The order of output does not matter.
+
+**Example 1:**
+
+```
+Input:
+s: "cbaebabacd" p: "abc"
+
+Output:
+[0, 6]
+
+Explanation:
+The substring with start index = 0 is "cba", which is an anagram of "abc".
+The substring with start index = 6 is "bac", which is an anagram of "abc".
+```
+
+
+
+**Example 2:**
+
+```
+Input:
+s: "abab" p: "ab"
+
+Output:
+[0, 1, 2]
+
+Explanation:
+The substring with start index = 0 is "ab", which is an anagram of "ab".
+The substring with start index = 1 is "ba", which is an anagram of "ab".
+The substring with start index = 2 is "ab", which is an anagram of "ab".
+```
+
+
+
+### Solution Thought Process
+
+As we have to find a permutation of string `p` , let's say that the length of `p` is `k`. We can say that we have to check every `k` length subarray starting from 0. Let's say that length of `s` is L. 
+
+Let's store all the frequencies in an `int remainingFrequency[26]={0}`. Whenever we found an element we decrease it's remaining frequency.
+
+The algorithm boils down to these step:
+
+- Check `[0,k-1]` - this k length window, check if all the entries in the remaining frequency is 0
+
+- Check `[1,k]` - this k length window, check if all the entries in the remaining frequency is 0
+
+- Check `[2,k+1]` - this k length window, check if all the entries in the remaining frequency is 0
+
+  .............................................................
+
+  .............................................................
+
+- Check `[windowStart+k-1,L-1]` - this k length window, check if all the entries in the remaining frequency is 0
+
+If the frequencies are 0, then we can say that this is a valid contender for our answer. For each window we have to consider the `26` values to determine if the window is an anagram.
+
+So one thing we get hunch from here, this can be easily done in O(n) instead on any quadric time complexity.
+
+**Why?**
+
+When rolling over the next window, we can remove the left most element, and just add one right side element and change the remaining frequencies. This is called the sliding window technique.
+
+### Solution
+
+```c++
+class Solution {
+private:
+    int remainingFrequency[26]={0};
+    bool checkFrequency(int *frequency)
+    {
+        for(int i=0;i<26;i++)
+        {
+            if(frequency[i]!=0)
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+public:
+    vector<int> findAnagrams(string s, string p) {
+        vector<int>result;
+        int remainingFrequency[26] = {0};
+        if(s.size()==0)
+        {
+            return result;
+        }
+        for(int i=0;i<p.size();i++)
+        {
+            remainingFrequency[p[i]-'a']++;
+        }
+        int windowStart=0;
+        int k=p.size();
+        for(int windowEnd=0;windowStart+k-1<s.size();windowEnd++)
+        {
+            remainingFrequency[s[windowEnd]-'a']--;
+            if(windowEnd>=k-1)
+            {
+                if(checkFrequency(remainingFrequency))
+                {
+                    result.push_back(windowStart);
+                }
+                remainingFrequency[s[windowStart]-'a']++;
+                windowStart++;       
+            }
+        }
+        return result;
+    }
+};
+```
+
+
+
+### Complexity
+
+**Time Complexity:** O(n)
+
+**Space Complexity:** O(1)
+
+
+
+
+
+## 18.05.2020 <a name="18.05.2020"></a>
+
+### Problem Statement
+
+Given two strings **s1** and **s2**, write a function to return true if **s2** contains the permutation of **s1**. In other words, one of the first string's permutations is the **substring** of the second string.
+
+ 
+
+**Example 1:**
+
+```
+Input: s1 = "ab" s2 = "eidbaooo"
+Output: True
+Explanation: s2 contains one permutation of s1 ("ba").
+```
+
+**Example 2:**
+
+```
+Input:s1= "ab" s2 = "eidboaoo"
+Output: False
+```
+
+ 
+
+**Note:**
+
+1. The input strings only contain lower case letters.
+2. The length of both given strings is in range [1, 10,000].
+
+### Solution Thought Process
+
+As we have to find a permutation of string `s1` , let's say that the length of `s1` is `k`. We can say that we have to check every `k` length subarray starting from 0. Let's say that length of `s2` is L. 
+
+Let's store all the frequencies in an `int remainingFrequency[26]={0}`. Whenever we found an element we decrease it's remaining frequency.
+
+The algorithm boils down to these step:
+
+- Check `[0,k-1]` - this k length window, check if all the entries in the remaining frequency is 0
+
+- Check `[1,k]` - this k length window, check if all the entries in the remaining frequency is 0
+
+- Check `[2,k+1]` - this k length window, check if all the entries in the remaining frequency is 0
+
+  .............................................................
+
+  .............................................................
+
+- Check `[windowStart+k-1,L-1]` - this k length window, check if all the entries in the remaining frequency is 0
+
+If the frequencies are 0, then we can say that the permutation exists. For each window we have to consider the `26` values to determine if the window is an permutation.
+
+So one thing we get hunch from here, this can be easily done in O(n) instead on any quadric time complexity.
+
+**Why?**
+
+When rolling over the next window, we can remove the left most element, and just add one right side element and change the remaining frequencies. This is called the sliding window technique.
+
+### Solution
+
+```c++
+class Solution {
+private:
+    int remainingFrequency[26]={0};
+    bool checkFrequency(int *frequency)
+    {
+        for(int i=0;i<26;i++)
+        {
+            if(frequency[i]!=0)
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+public:
+    bool checkInclusion(string s1, string s2) {
+        int k=s1.size();
+        for(int i=0;i<k;i++)
+        {
+            remainingFrequency[s1[i]-'a']++;
+        }
+        int windowStart=0;
+        for(int windowEnd=0;windowStart+k-1<s2.size();windowEnd++)
+        {
+            remainingFrequency[s2[windowEnd]-'a']--;
+            if(windowEnd>=k-1)
+            {
+                if(checkFrequency(remainingFrequency))
+                {
+                    return true;
+                }
+                remainingFrequency[s2[windowStart]-'a']++;
+                windowStart++;
+            }
+        }
+        return false;
+    }
+};
+```
+
+
+
+### Complexity
+
+**Time Complexity:** O(n)
+
+**Space Complexity:** O(1)
+
+
+
+## 19.05.2020 <a name="19.05.2020"></a>
+
+### Problem Statement
+
+Write a class `StockSpanner` which collects daily price quotes for some stock, and returns the *span* of that stock's price for the current day.
+
+The span of the stock's price today is defined as the maximum number of consecutive days (starting from today and going backwards) for which the price of the stock was less than or equal to today's price.
+
+For example, if the price of a stock over the next 7 days were `[100, 80, 60, 70, 60, 75, 85]`, then the stock spans would be `[1, 1, 1, 2, 1, 4, 6]`.
+
+ 
+
+**Example 1:**
+
+```
+Input: ["StockSpanner","next","next","next","next","next","next","next"], [[],[100],[80],[60],[70],[60],[75],[85]]
+Output: [null,1,1,1,2,1,4,6]
+Explanation: 
+First, S = StockSpanner() is initialized.  Then:
+S.next(100) is called and returns 1,
+S.next(80) is called and returns 1,
+S.next(60) is called and returns 1,
+S.next(70) is called and returns 2,
+S.next(60) is called and returns 1,
+S.next(75) is called and returns 4,
+S.next(85) is called and returns 6.
+
+Note that (for example) S.next(75) returned 4, because the last 4 prices
+(including today's price of 75) were less than or equal to today's price.
+```
+
+ 
+
+**Note:**
+
+1. Calls to `StockSpanner.next(int price)` will have `1 <= price <= 10^5`.
+2. There will be at most `10000` calls to `StockSpanner.next` per test case.
+3. There will be at most `150000` calls to `StockSpanner.next` across all test cases.
+4. The total time limit for this problem has been reduced by 75% for C++, and 50% for all other languages.
+
+
+
+### Solution Thought Process
+
+This problem can be modeled as a stack problem. For every element that we get, we try to put them into the stack. When putting on the stack while the stack is not empty, we try to destroy as many stock as we can if the top of the stack is less than the value we are currently putting. We create a structure like this:
+
+```c++
+struct Stock {
+	int val;
+	int span;
+};
+```
+
+On the span variable, we keep count of how many stocks we have destroyed with that stock. It has initial the value of 1. After that when we are destroying the stocks with some powerful stocks, we add the destroyed stock's span to the powerful stocks span.
+
+### Solution
+
+```C++
+class StockSpanner {
+public:
+    struct Stock {
+        int val;
+        int span;
+    };
+    stack<Stock>S;
+public:
+    StockSpanner() {
+        
+    }
+    
+    int next(int price) {
+        Stock s{price,1};
+        while(!S.empty())
+        {
+            Stock top = S.top();
+            if(top.val<=s.val) {
+                s.span+=top.span;
+                S.pop();
+            }
+            else {
+                break;
+            }
+        }
+        S.push(s);
+        return s.span;
+    }
+};
+
+/**
+ * Your StockSpanner object will be instantiated and called as such:
+ * StockSpanner* obj = new StockSpanner();
+ * int param_1 = obj->next(price);
+ */
+```
+
+
+
+### Complexity
+
+**Time Complexity:** O(n)
+
+**Space Complexity:** O(n)
